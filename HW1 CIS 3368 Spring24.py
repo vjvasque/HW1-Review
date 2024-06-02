@@ -100,7 +100,6 @@ def main():
             choice = input("Do you want to start an order (type 'order') or get information about a drink (type 'info')? (q to quit): ").strip().lower()
             if choice == 'q':
                 break
-
             try: 
                 if choice == 'info':
                     drink_number = int(input("Enter the number of the drink you want more info on: "))
