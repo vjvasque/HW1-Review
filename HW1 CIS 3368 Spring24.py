@@ -25,7 +25,7 @@ class Drink_Menu:
 # next came the task of  labeling the parameters for the drink menu structure 
 
 class Dive_bar:
-    def __init(self, connection):
+    def __init__(self, connection):
         """
         Initialize a new instance of the divebar class here
         """
@@ -38,17 +38,17 @@ class Dive_bar:
         Load the drinks from the DB, return them as a list of Drink_Menu objects
         """
         drinks = []
-        cursor = conn.cursor(dictionary = True)
+        cursor = self.cursor(dictionary = True)
         sql = 'SELECT * FROM drinks'
         cursor.execute(sql)
         rows = cursor.fetchall()
         for row in rows:
-            drinks.append(Drink(row['name'], row['price'], row['description'], row['color']))
+            drinks.append(Drink_Menu(row['name'], row['price'], row['description'], row['color']))
         cursor.close()
         return drinks
 # this section would also be where the cursor is created and where the database would be called upon to output the drinks from MySQL
 
-    def display_drink(self):
+    def display_drinks(self):
         """
         Display the list of available drinks with their corresponding numbers and prices
         """
@@ -100,27 +100,26 @@ def main():
             choice = input("Do you want to start an order (type 'order') or get information about a drink (type 'info')? (q to quit): ").strip().lower()
             if choice == 'q':
                 break
-            elif choice == 'info':
-                try:
+
+            try: 
+                if choice == 'info':
                     drink_number = int(input("Enter the number of the drink you want more info on: "))
                     bar.get_drink_info(drink_number)
-                except ValueError:
-                    print("Please enter a valid number.")
-            elif choice == 'order':
-                while True:
-                    try:
+                elif choice == 'order':
+                    while True:
                         drink_number = input("Enter the number of the drink to add to your order (q to finish): ")
                         if drink_number.lower() == 'q':
                             break
                         drink_number = int(drink_number)
                         bar.add_to_order(drink_number)
-                    except ValueError:
-                        print("Please enter a valid number.")
-                    more = input("Would you like to add another drink? (y/n): ").strip().lower()
-                    if more != 'y':
-                        break
-                bar.calculate_total()
-
+                        more = input("Would you like to add another drink? (y/n): ").strip().lower()
+                        if more != 'y':
+                            break
+                    bar.calculate_total()
+                else:
+                    print("Invalid choice. Please enter 'order', 'info', or 'q' to quit")
+            except ValueError:
+                print("Please enter a valid number")
         conn.close()
     else:
         print("Failed to connect to the database.")
