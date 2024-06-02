@@ -26,11 +26,17 @@ class Drink_Menu:
 
 class Dive_bar:
     def __init(self, connection):
+        """
+        Initialize a new instance of the divebar class here
+        """
         self.connection = connection
         self.drinks = self.load_drinks_from_db()
         self.order = []
 # above is the defined class of Dive_bar where a connection is made
     def load_drinks_from_db(self):
+        """
+        Load the drinks from the DB, return them as a list of Drink_Menu objects
+        """
         drinks = []
         cursor = conn.cursor(dictionary = True)
         sql = 'SELECT * FROM drinks'
@@ -43,10 +49,16 @@ class Dive_bar:
 # this section would also be where the cursor is created and where the database would be called upon to output the drinks from MySQL
 
     def display_drink(self):
+        """
+        Display the list of available drinks with their corresponding numbers and prices
+        """
         for i, drink in enumerate(self.drinks, start=1):
             print(f"{i} - {drink.name}: ${drink.price:.2f}")
     
     def get_drink_info(self, drink_number):
+        """
+        Retrieve and display the description and color of the specified drink
+        """
         if 1 <= drink_number <= len(self.drinks):
             drink = self.drinks[drink_number - 1]
             print(f"Name: {drink.name}")
@@ -56,6 +68,9 @@ class Dive_bar:
             print("Invalid drink number.")
 
     def add_to_order(self, drink_number):
+        """
+        Add the specified drink to the order based on the drink number
+        """
         if 1 <= drink_number <= len(self.drinks):
             drink = self.drinks[drink_number - 1]
             self.order.append(drink)
@@ -64,6 +79,9 @@ class Dive_bar:
             print("Invalid drink number")
 
     def calculate_total(self):
+        """
+        Calculate the total
+        """
         total = sum(drink.price for drink in self.order)
         print("\nReceipt:")
         for drink in self.order:
