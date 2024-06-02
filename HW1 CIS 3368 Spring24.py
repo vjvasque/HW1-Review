@@ -30,7 +30,7 @@ class Dive_bar:
         self.drinks = self.load_drinks_from_db()
         self.order = []
 # above is the defined class of Dive_bar where a connection is made
-    def generate_drinks_from_db(self):
+    def load_drinks_from_db(self):
         drinks = []
         cursor = conn.cursor(dictionary = True)
         sql = 'SELECT * FROM drinks'
@@ -41,6 +41,27 @@ class Dive_bar:
         cursor.close()
         return drinks
 # this section would also be where the cursor is created and where the database would be called upon to output the drinks from MySQL
+
+    def display_drink(self):
+        for i, drink in enumerate(self.drinks, start=1):
+            print(f"{i} - {drink.name}: ${drink.price:.2f}")
+    
+    def get_drink_info(self, drink_number):
+        if 1 <= drink_number <= len(self.drinks):
+            drink = self.drinks[drink_number - 1]
+            print(f"Name: {drink.name}")
+            print(f"Description: {drink.description}")
+            print(f"Color: {drink.color}")
+        else:
+            print("Invalid drink number.")
+    def calculate_total(self):
+        total = sum(drink.price for drink in self.order)
+        print("\nReceipt:")
+        for drink in self.order:
+            print(f"{drink.name}: ${drink.price:.2f}")
+        print(f"\nTotal: ${total:.2f}")
+
+    
 
 def main():
     conn = create_con('cis3368spring.crmi0e6cq704.us-east-1.rds.amazonaws.com', 'admin', 'cis3368spring24', 'cis3368springdb')
