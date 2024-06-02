@@ -54,6 +54,15 @@ class Dive_bar:
             print(f"Color: {drink.color}")
         else:
             print("Invalid drink number.")
+
+    def add_to_order(self, drink_number):
+        if 1 <= drink_number <= len(self.drinks):
+            drink = self.drinks[drink_number - 1]
+            self.order.append(drink)
+            print(f"{drink.name} added to order")
+        else:
+            print("Invalid drink number")
+
     def calculate_total(self):
         total = sum(drink.price for drink in self.order)
         print("\nReceipt:")
